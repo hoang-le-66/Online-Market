@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "430060353590",
+    "project_id": "online-market-5071c",
+    "storage_bucket": "online-market-5071c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430060353590:android:f214006c3bcabfd0448097",
+        "android_client_info": {
+          "package_name": "com.example.onlinemarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430060353590-du80ggj7skd0llol17im0hb4t3lad3h8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.onlinemarket",
+            "certificate_hash": "19689688f3788d9cf16a82bb1a0f75a7b49bd6a0"
+          }
+        },
+        {
+          "client_id": "430060353590-hikqbjmleg5tqac37kreja9baptli37k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBww8dxqGLxl6nxNs8G9VuwVC0irgLYTYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430060353590-hikqbjmleg5tqac37kreja9baptli37k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
