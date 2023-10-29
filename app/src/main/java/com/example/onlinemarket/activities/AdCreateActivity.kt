@@ -1,4 +1,4 @@
-package com.example.onlinemarket
+package com.example.onlinemarket.activities
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -10,17 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Display.Mode
 import android.view.Menu
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.onlinemarket.R
+import com.example.onlinemarket.Utils
+import com.example.onlinemarket.adapters.AdapterPickedImage
 import com.example.onlinemarket.databinding.ActivityAdCreateBinding
-import com.google.api.LogDescriptor
+import com.example.onlinemarket.models.ModelPickedImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlin.math.log
 
 class AdCreateActivity : AppCompatActivity() {
     private lateinit var bindingAdCreate: ActivityAdCreateBinding
@@ -51,12 +52,12 @@ class AdCreateActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         //Setup and set the categories adapter to the Category Input Filed i.e categoryAct
-        val adapterCategories = ArrayAdapter(this,R.layout.row_category_act, Utils.categories)
+        val adapterCategories = ArrayAdapter(this, R.layout.row_category_act, Utils.categories)
         bindingAdCreate.categoryAct.setAdapter(adapterCategories)
 
         //Setup and set the conditions adapter to the Condition Input Filed i.e conditionAct
-        val adapterConditions = ArrayAdapter(this, R.layout.row_condition_act, Utils.categories)
-        bindingAdCreate.categoryAct.setAdapter(adapterCategories)
+        val adapterConditions = ArrayAdapter(this, R.layout.row_condition_act, Utils.conditions)
+        bindingAdCreate.conditionAct.setAdapter(adapterConditions)
 
         //init imagePickedArrayList
         imagePickedArrayList= ArrayList()
@@ -127,7 +128,7 @@ class AdCreateActivity : AppCompatActivity() {
             pickImageGallery()
 
         }else{
-            Utils.toast(this,"Storage permission denied")
+            Utils.toast(this, "Storage permission denied")
         }
 
     }
@@ -187,7 +188,7 @@ class AdCreateActivity : AppCompatActivity() {
             imagePickedArrayList.add(modelPickedImage)
             loadImages()
         }else{
-            Utils.toast(this,"Cancelled...!")
+            Utils.toast(this, "Cancelled...!")
         }
 
     }
@@ -207,14 +208,14 @@ class AdCreateActivity : AppCompatActivity() {
             loadImages()
 
         }else{
-            Utils.toast(this,"Cancelled...!")
+            Utils.toast(this, "Cancelled...!")
         }
 
     }
 
     private var brand = ""
     private var category = ""
-    private var condition = ""
+    private var conditions = ""
     private var address = ""
     private var price = ""
     private var title = ""
@@ -227,7 +228,7 @@ class AdCreateActivity : AppCompatActivity() {
 
         brand = bindingAdCreate.brandEdt.text.toString().trim()
         category = bindingAdCreate.categoryAct.text.toString().trim()
-        condition = bindingAdCreate.conditionAct.text.toString().trim()
+        conditions = bindingAdCreate.conditionAct.text.toString().trim()
         address = bindingAdCreate.locationAct.text.toString().trim()
         price = bindingAdCreate.priceEdt.text.toString().trim()
         title = bindingAdCreate.titleEdt.text.toString().trim()
@@ -240,7 +241,7 @@ class AdCreateActivity : AppCompatActivity() {
             bindingAdCreate.categoryAct.error = "Choose Category"
             bindingAdCreate.categoryAct.requestFocus()
 
-        }else if (condition.isEmpty()){
+        }else if (conditions.isEmpty()){
             bindingAdCreate.conditionAct.error = "Choose Condition"
             bindingAdCreate.conditionAct.requestFocus()
 

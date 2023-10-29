@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ProfieEditActivity">
+    tools:context=".activities.ProfieEditActivity">
     
     <RelativeLayout
         android:id="@+id/toolbarRL"

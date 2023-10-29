@@ -5,4 +5,5 @@
     <string name="not_have_account_register">Not have account? <b>Register</b></string>
     <string name="already_have_account_login">Already have account? <b>Login</b></string>
     <string name="didn_t_receive_otp_resend">Didn\'t receive OTP? <b>Resend</b></string>
+    <string name="price_symbol">$</string>
 </resources>

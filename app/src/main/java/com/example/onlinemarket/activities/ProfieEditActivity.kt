@@ -1,4 +1,4 @@
-package com.example.onlinemarket
+package com.example.onlinemarket.activities
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -14,15 +14,15 @@ import android.view.Menu
 import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import com.example.onlinemarket.R
+import com.example.onlinemarket.Utils
 import com.example.onlinemarket.databinding.ActivityProfieEditBinding
-import com.google.android.datatransport.cct.internal.LogEvent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import kotlin.math.log
 
 class ProfieEditActivity : AppCompatActivity() {
 
@@ -127,7 +127,7 @@ class ProfieEditActivity : AppCompatActivity() {
 
                 Log.e(TAG, "uploadProfileImageStorage: ", e)
                 progressDialog.dismiss()
-                Utils.toast(this,"Failed to upload due to ${e.message}")
+                Utils.toast(this, "Failed to upload due to ${e.message}")
 
             }
     }
@@ -160,7 +160,7 @@ class ProfieEditActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Log.d(TAG, "updateProfileDb: Updated...")
                 progressDialog.dismiss()
-                Utils.toast(this,"Updated...")
+                Utils.toast(this, "Updated...")
                 imageUri = null
             }
             .addOnFailureListener {e ->
@@ -285,7 +285,7 @@ class ProfieEditActivity : AppCompatActivity() {
                 pickImageCamera()
             }else{
                 Log.d(TAG, "requestCameraPermissions: All or either are denied")
-                Utils.toast(this,"Camera or Storage or both permission denied")
+                Utils.toast(this, "Camera or Storage or both permission denied")
             }
 
         }
@@ -297,7 +297,7 @@ class ProfieEditActivity : AppCompatActivity() {
             if (isGranted){
                 pickImageGallery()
             }else{
-                Utils.toast(this,"Storage permission denied")
+                Utils.toast(this, "Storage permission denied")
             }
 
         }
@@ -332,7 +332,7 @@ class ProfieEditActivity : AppCompatActivity() {
                 }
             }else{
                 //Cancelled
-                Utils.toast(this,"Cancelled!!")
+                Utils.toast(this, "Cancelled!!")
             }
 
         }

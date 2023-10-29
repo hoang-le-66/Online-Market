@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.onlinemarket
+package com.example.onlinemarket.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.bumptech.glide.util.Util
+import com.example.onlinemarket.Utils
 import com.example.onlinemarket.databinding.ActivityLoginPhoneBinding
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
@@ -108,7 +108,7 @@ class LoginPhoneActivity : AppCompatActivity() {
                 Log.e(TAG,"onVerificationFailed",e)
 
                 progressDialog.dismiss()
-                Utils.toast(this@LoginPhoneActivity,"${e.message}")
+                Utils.toast(this@LoginPhoneActivity, "${e.message}")
 
             }
 
@@ -212,7 +212,7 @@ class LoginPhoneActivity : AppCompatActivity() {
                 }else{
                     Log.d(TAG, "signInWithPhoneAuthCredential: Existing User Logged In")
                     //Existed User, no need to save to Db
-                    startActivity(Intent(this,MainActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finishAffinity()
                 }
 

@@ -1,15 +1,15 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.onlinemarket
+package com.example.onlinemarket.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.onlinemarket.Utils
 import com.example.onlinemarket.databinding.ActivityLoginOptionsBinding
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -45,11 +45,11 @@ class LoginOptionsActivity : AppCompatActivity() {
         }
 
         bindingLoginOptions.loginEmailBtn.setOnClickListener {
-            startActivity(Intent(this,LoginEmailActivity::class.java))
+            startActivity(Intent(this, LoginEmailActivity::class.java))
         }
 
         bindingLoginOptions.loginPhoneBtn.setOnClickListener {
-            startActivity(Intent(this,LoginPhoneActivity::class.java))
+            startActivity(Intent(this, LoginPhoneActivity::class.java))
         }
     }
 

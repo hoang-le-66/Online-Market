@@ -1,11 +1,16 @@
-package com.example.onlinemarket
+package com.example.onlinemarket.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.onlinemarket.R
+import com.example.onlinemarket.Utils
 import com.example.onlinemarket.databinding.ActivityMainBinding
+import com.example.onlinemarket.fragments.AccountFragment
+import com.example.onlinemarket.fragments.ChatsFragment
+import com.example.onlinemarket.fragments.HomeFragment
+import com.example.onlinemarket.fragments.MyAdsFragment
 import com.google.firebase.auth.FirebaseAuth
-import io.grpc.okhttp.internal.Util
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_chats ->{
                     if (firebaseAuth.currentUser == null){
-                        Utils.toast(this,"Login Required")
+                        Utils.toast(this, "Login Required")
                         startLoginOptions()
                         false
                     }else{
@@ -46,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_my_ads ->{
                     if (firebaseAuth.currentUser == null){
-                        Utils.toast(this,"Login Required")
+                        Utils.toast(this, "Login Required")
                         startLoginOptions()
                         false
                     }else{
@@ -57,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_account ->{
                     if (firebaseAuth.currentUser == null){
-                        Utils.toast(this,"Login Required")
+                        Utils.toast(this, "Login Required")
                         startLoginOptions()
                         false
                     }else{
@@ -73,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         bindingMainActivity.sellFab.setOnClickListener {
-            startActivity(Intent(this,AdCreateActivity::class.java))
+            startActivity(Intent(this, AdCreateActivity::class.java))
 
         }
     }
@@ -119,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startLoginOptions(){
-        startActivity(Intent(this,LoginOptionsActivity::class.java))
+        startActivity(Intent(this, LoginOptionsActivity::class.java))
     }
 
 

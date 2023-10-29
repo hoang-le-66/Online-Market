@@ -13,6 +13,7 @@ object Utils {
     const val AD_STATUS_SOLD = "SOLD"
     //Categories array of the Ads
     val categories = arrayOf(
+        "All",
         "Mobiles",
         "Computer/Laptop",
         "Electronics & Home Appliances",
@@ -24,6 +25,20 @@ object Utils {
         "Animals",
         "Businesses",
         "Agriculture"
+    )
+    val categoryIcons = arrayOf(
+        R.drawable.ic_category_all,
+        R.drawable.ic_category_mobile,
+        R.drawable.ic_category_computer,
+        R.drawable.ic_category_electronic,
+        R.drawable.ic_category_vehicle,
+        R.drawable.ic_category_furniture,
+        R.drawable.ic_category_fashion,
+        R.drawable.ic_category_book,
+        R.drawable.ic_category_sport,
+        R.drawable.ic_category_animal,
+        R.drawable.ic_category_business,
+        R.drawable.ic_category_agriculture
     )
     //Ad product conditions. Ex: New, Used, Refurbished
     val conditions = arrayOf(

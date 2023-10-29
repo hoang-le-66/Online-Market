@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.onlinemarket
+package com.example.onlinemarket.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import android.widget.Toast
+import com.example.onlinemarket.Utils
 import com.example.onlinemarket.databinding.ActivityLoginEmailBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -44,7 +44,7 @@ class LoginEmailActivity : AppCompatActivity() {
         }
 
         bindingLoginEmailActivity.noAccountTv.setOnClickListener {
-            startActivity(Intent(this,RegisterEmailActivity::class.java))
+            startActivity(Intent(this, RegisterEmailActivity::class.java))
 
         }
 
@@ -91,7 +91,7 @@ class LoginEmailActivity : AppCompatActivity() {
                 Log.e(TAG,"loginUser: ",e)
                 progressDialog.dismiss()
 
-                Utils.toast(this,"Unable to login due to ${e.message}")
+                Utils.toast(this, "Unable to login due to ${e.message}")
             }
     }
 }

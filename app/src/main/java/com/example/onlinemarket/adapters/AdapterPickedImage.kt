@@ -1,4 +1,4 @@
-package com.example.onlinemarket
+package com.example.onlinemarket.adapters
 
 import android.content.Context
 import android.util.Log
@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
+import com.example.onlinemarket.R
 import com.example.onlinemarket.databinding.RowImagesPickedBinding
+import com.example.onlinemarket.models.ModelPickedImage
 
 class AdapterPickedImage(
     private val context: Context,

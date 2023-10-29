@@ -1,4 +1,4 @@
-package com.example.onlinemarket
+package com.example.onlinemarket.fragments
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.example.onlinemarket.activities.MainActivity
+import com.example.onlinemarket.activities.ProfieEditActivity
+import com.example.onlinemarket.R
+import com.example.onlinemarket.Utils
 import com.example.onlinemarket.databinding.FragmentAccountBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

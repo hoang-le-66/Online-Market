@@ -1,4 +1,4 @@
-package com.example.onlinemarket
+package com.example.onlinemarket.models
 
 import android.net.Uri
 //this model class will be used to show images
