@@ -1,6 +1,7 @@
 package com.example.onlinemarket.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.onlinemarket.FilterAd
 import com.example.onlinemarket.R
 import com.example.onlinemarket.Utils
+import com.example.onlinemarket.activities.AdDetailsActivity
 import com.example.onlinemarket.databinding.RowAdBinding
 import com.example.onlinemarket.models.ModelAd
 import com.google.firebase.auth.FirebaseAuth
@@ -57,6 +59,7 @@ class AdapterAd : RecyclerView.Adapter<AdapterAd.HolderAd>, Filterable{
 
         val title = modelAd.title
         val description = modelAd.description
+        val address = modelAd.address
         val condition = modelAd.condition
         val price = modelAd.price
         val timestamp = modelAd.timestamp
@@ -64,11 +67,55 @@ class AdapterAd : RecyclerView.Adapter<AdapterAd.HolderAd>, Filterable{
 
         loadAdFirstImage(modelAd, holder)
 
+        if (firebaseAuth.currentUser != null){
+            checkIsFavourite(modelAd, holder)
+        }
+
         holder.titleTv.text = title
         holder.descriptionTv.text = description
+        holder.addressTv.text = address
         holder.conditionTv.text = condition
         holder.priceTv.text = price
         holder.dateTv.text = formattedDate
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, AdDetailsActivity::class.java)
+            intent.putExtra("adId", modelAd.id)
+            context.startActivity(intent)
+
+        }
+
+        holder.favBtn.setOnClickListener {
+            val favourite = modelAd.favourite
+            if (favourite){
+                Utils.removeFromFavourite(context, modelAd.id)
+            }else{
+                Utils.addToFavourite(context, modelAd.id)
+            }
+        }
+
+    }
+
+    private fun checkIsFavourite(modelAd: ModelAd, holder: AdapterAd.HolderAd) {
+        val ref = FirebaseDatabase.getInstance().getReference("Users")
+        ref.child(firebaseAuth.uid!!).child("Favourites").child(modelAd.id)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val favourite = snapshot.exists()
+
+                    modelAd.favourite = favourite
+                    if (favourite){
+                        holder.favBtn.setImageResource(R.drawable.ic_fav_yes)
+                    }else{
+                        holder.favBtn.setImageResource(R.drawable.ic_fav_no)
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
 
     }
 
@@ -93,7 +140,7 @@ class AdapterAd : RecyclerView.Adapter<AdapterAd.HolderAd>, Filterable{
                                 .placeholder(R.drawable.ic_image_gray)
                                 .into(holder.imageIv)
                         }catch (e: Exception){
-
+                            Log.e(TAG, "onDataChange: ", e)
                         }
 
                     }
@@ -124,6 +171,7 @@ class AdapterAd : RecyclerView.Adapter<AdapterAd.HolderAd>, Filterable{
         var imageIv = bindingAdapterAd.imageIv
         var titleTv = bindingAdapterAd.titleTv
         var descriptionTv = bindingAdapterAd.descriptionTv
+        var addressTv = bindingAdapterAd.addressTv
         var favBtn = bindingAdapterAd.favBtn
         var conditionTv = bindingAdapterAd.conditionTv
         var priceTv = bindingAdapterAd.priceTv

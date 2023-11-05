@@ -1,5 +1,6 @@
 package com.example.onlinemarket.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -57,7 +58,7 @@ class HomeFragment : Fragment() {
         loadCategories()
 
         loadAds("All")
-
+        //add text change listener to searchEdt to search ads base on query type
         homeFragmentBinding.searchEdt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -90,6 +91,7 @@ class HomeFragment : Fragment() {
 
         val ref = FirebaseDatabase.getInstance().getReference("Ads")
         ref.addValueEventListener(object : ValueEventListener{
+            @SuppressLint("SuspiciousIndentation")
             override fun onDataChange(snapshot: DataSnapshot) {
                 adArrayList.clear()
 
@@ -97,26 +99,17 @@ class HomeFragment : Fragment() {
 
                     try {
                         val modelAd = ds.getValue(ModelAd::class.java)
-                        // Convert timestamp to Long
-                        val timestamp = ds.child("timestamp").getValue(Long::class.java)
-
-                        modelAd?.let {
-                            // Assign timestamp to the model
-                            it.timestamp = timestamp ?: 0L
 
                             // Add Ad to list if category is matched
                             if(category == "All"){
-                                adArrayList.add(it)
+                                adArrayList.add(modelAd!!)
                             } else {
                                 // Some category is selected
-                                if (it.category.equals(category)){
+                                if (modelAd!!.category.equals(category)){
                                     // Selected category is matched with Ad's category
-                                    adArrayList.add(it)
-                                } else {
-
+                                    adArrayList.add(modelAd)
                                 }
                             }
-                        }
 
                     } catch (e: Exception){
                         Log.e(TAG, "onDataChange: ", e)
@@ -129,7 +122,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })

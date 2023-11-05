@@ -8,6 +8,25 @@
     tools:context=".fragments.HomeFragment">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/locationCv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/locationTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:drawableStart="@drawable/ic_location_gray"
+            android:drawableEnd="@drawable/ic_next_gray"
+            android:padding="10dp"
+            android:text="Choose Location"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/searchCv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

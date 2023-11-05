@@ -51,6 +51,17 @@
             android:src="@drawable/ic_fav_no"
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/addressTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address of the Ad"
+            android:layout_toEndOf="@id/imageIv"
+            android:layout_below="@id/descriptionTv"
+            android:ellipsize="end"
+            android:maxLines="1"/>
         
         <TextView
             android:id="@+id/conditionTv"
@@ -58,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/imageIv"
-            android:layout_below="@id/descriptionTv"
+            android:layout_below="@id/addressTv"
             android:text="New"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="5dp"
@@ -67,7 +78,7 @@
         <TextView
             android:id="@+id/priceSymbolTv"
             style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_below="@id/descriptionTv"
+            android:layout_below="@id/addressTv"
             android:layout_toEndOf="@id/conditionTv"
             android:text="@string/price_symbol"
             android:layout_marginTop="4dp"
@@ -79,7 +90,7 @@
         <TextView
             android:id="@+id/priceTv"
             style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_below="@id/descriptionTv"
+            android:layout_below="@id/addressTv"
             android:layout_toEndOf="@id/priceSymbolTv"
             android:text="0.00"
             android:layout_marginTop="4dp"
@@ -92,16 +103,13 @@
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/descriptionTv"
+                android:layout_below="@id/addressTv"
                 android:layout_alignParentEnd="true"
                 android:textSize="12sp"
                 android:text="dd/MM/yyyy"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="4dp"
-
                 />
-
-
 
     </RelativeLayout>
 

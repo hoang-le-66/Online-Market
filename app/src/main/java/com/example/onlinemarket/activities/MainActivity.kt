@@ -1,21 +1,33 @@
 package com.example.onlinemarket.activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.example.onlinemarket.R
 import com.example.onlinemarket.Utils
 import com.example.onlinemarket.databinding.ActivityMainBinding
 import com.example.onlinemarket.fragments.AccountFragment
-import com.example.onlinemarket.fragments.ChatsFragment
+import com.example.onlinemarket.fragments.HistoryChatsFragment
 import com.example.onlinemarket.fragments.HomeFragment
 import com.example.onlinemarket.fragments.MyAdsFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bindingMainActivity : ActivityMainBinding
     private lateinit var firebaseAuth: FirebaseAuth
+
+    companion object{
+        private const val TAG = "MAIN_TAG"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         if (firebaseAuth.currentUser == null){
             //user not logged in, show LoginOptions
             startLoginOptions()
+        }else{
+            updateFcmToken()
+            askNotificationPermission()
         }
 
         showHomeFragment()
@@ -78,7 +93,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         bindingMainActivity.sellFab.setOnClickListener {
-            startActivity(Intent(this, AdCreateActivity::class.java))
+            val intent = Intent(this, AdCreateActivity::class.java)
+            intent.putExtra("isEditMode", false)
+            startActivity(intent)
+
 
         }
     }
@@ -96,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     private fun showChatsFragment(){
         bindingMainActivity.toolbarTitleTv.text="Chats"
 
-        val fragment = ChatsFragment()
+        val fragment = HistoryChatsFragment()
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(bindingMainActivity.fragmentsFL.id, fragment, "ChatsFragment")
         fragmentTransaction.commit()
@@ -127,7 +145,49 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, LoginOptionsActivity::class.java))
     }
 
+    private fun updateFcmToken(){
+        val myUid = "${firebaseAuth.uid}"
+        Log.d(TAG, "updateFcmToken: ")
 
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener {fcmToken ->
+
+                Log.d(TAG, "updateFcmToken: fcmToken $fcmToken")
+                val hashMap = HashMap<String, Any>()
+                hashMap["fcmToken"] = "$fcmToken"
+
+                val ref = FirebaseDatabase.getInstance().getReference("Users")
+                ref.child(myUid)
+                    .updateChildren(hashMap)
+                    .addOnSuccessListener {
+
+                        Log.d(TAG, "updateFcmToken: FCM token update to db success")
+                    }
+                    .addOnFailureListener {e ->
+                        Log.e(TAG, "updateFcmToken: ", )
+                    }
+                    
+            }
+            .addOnFailureListener {e ->
+                Log.e(TAG, "updateFcmToken: ", )
+            }
+
+    }
+
+    private fun askNotificationPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_DENIED){
+                requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private val requestNotificationPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){isGranted ->
+        Log.d(TAG, "requestNotificationPermission: isGranted: $isGranted")
+    }
 }
 /* Steps
 * 1) Enable ViewBinding

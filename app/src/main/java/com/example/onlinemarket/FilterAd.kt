@@ -29,7 +29,7 @@ class FilterAd(
                 }
             }
 
-            results.count = filterList.size
+            results.count = filteredModels.size
             results.values = filteredModels
         }else{
             results.count = filterList.size

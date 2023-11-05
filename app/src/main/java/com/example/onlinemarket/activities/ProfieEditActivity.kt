@@ -67,9 +67,9 @@ class ProfieEditActivity : AppCompatActivity() {
             imagePickDialog()
         }
 
-        bindingProfileEdit.profileImagePickFab.setOnClickListener {
-            imagePickDialog()
-        }
+//        bindingProfileEdit.profileImagePickFab.setOnClickListener {
+//            imagePickDialog()
+//        }
 
         bindingProfileEdit.updateBtn.setOnClickListener {
             validateData()
@@ -83,6 +83,7 @@ class ProfieEditActivity : AppCompatActivity() {
         email = bindingProfileEdit.emailEdt.text.toString().trim()
         phoneCode = bindingProfileEdit.countryCodePicker.selectedCountryCodeWithPlus
         phoneNumber = bindingProfileEdit.phoneNumberEdt.text.toString().trim()
+
         //validate data
         if (imageUri == null){
             //no image to upload to storage, just update db
@@ -116,8 +117,9 @@ class ProfieEditActivity : AppCompatActivity() {
                 var uriTask = taskSnapshot.storage.downloadUrl
 
                 while (!uriTask.isSuccessful);
-
-                val uploadedImageUrl = uriTask.toString()
+                //fix
+                /*val uploadedImageUrl = uriTask.toString()*/
+                val uploadedImageUrl = uriTask.result.toString()
                 if (uriTask.isSuccessful){
                     updateProfileDb(uploadedImageUrl)
                 }
@@ -132,7 +134,7 @@ class ProfieEditActivity : AppCompatActivity() {
             }
     }
 
-    private fun updateProfileDb(uploadedImageUrl: String){
+    private fun updateProfileDb(uploadedImageUrl: String?){
         Log.d(TAG, "updateProfileDb: uploadedImageUrl: $uploadedImageUrl")
 
         progressDialog.setMessage("Updating user info")
@@ -143,7 +145,8 @@ class ProfieEditActivity : AppCompatActivity() {
         hashMap["dob"] = "$dob"
         if(uploadedImageUrl != null){
             //update profileImageUrl in db only if uploaded image url is not null
-            hashMap["profileImageUrl"]= "uploadedImageUrl"
+            //fix
+            hashMap["profileImageUrl"]= "$uploadedImageUrl"
         }
 
 
@@ -214,10 +217,12 @@ class ProfieEditActivity : AppCompatActivity() {
                     }
                     //set profile img
                     try {
-                        Glide.with(this@ProfieEditActivity)
-                            .load(profileImageUrl)
-                            .placeholder(R.drawable.icon_person_white)
-                            .into(bindingProfileEdit.profileIv)
+                        if(!isDestroyed){
+                            Glide.with(this@ProfieEditActivity)
+                                .load(profileImageUrl)
+                                .placeholder(R.drawable.icon_person_white)
+                                .into(bindingProfileEdit.profileIv)
+                        }
                     }catch (e: Exception){
                         Log.e(TAG, "onDataChange: ", e)
                     }
@@ -255,14 +260,12 @@ class ProfieEditActivity : AppCompatActivity() {
 
             }else if(itemId == 2){
 
-                //Check gallery permission before pick image
                 Log.d(TAG, "imagePickDialog: Gallery Clicked, check if storage permission granted or not")
-                //Tiramisu version or above don't need Storage permission to launch Gallery
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                    requestCameraPermissions.launch(arrayOf(android.Manifest.permission.CAMERA))
-                }else{
-                    requestCameraPermissions.launch(arrayOf(android.Manifest.permission.CAMERA,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                // Tiramisu version or above don't need Storage permission to launch Gallery
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    pickImageGallery()
+                } else {
+                    requestStoragePermissions.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
 
             }
@@ -342,6 +345,7 @@ class ProfieEditActivity : AppCompatActivity() {
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
+        galleryActivityResultLauncher.launch(intent)
     }
 
     private val galleryActivityResultLauncher=
